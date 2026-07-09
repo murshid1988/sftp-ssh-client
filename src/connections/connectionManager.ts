@@ -15,15 +15,20 @@ export class ConnectionManager {
   constructor(private readonly secrets: SecretStore) {}
 
   /**
-   * Runs one sync operation (download/upload) for a connection at a time.
-   * Without this, a download's own file writes can trigger the auto-sync
-   * watcher's upload for the same connection concurrently — both read/write
-   * the manifest independently, and whichever finishes last silently
-   * overwrites the other's record of what's actually in sync.
+   * Runs one sync operation (download/upload/tree browse) for a connection
+   * at a time. Without this, a download's own file writes can trigger the
+   * auto-sync watcher's upload for the same connection concurrently — both
+   * read/write the manifest independently, and whichever finishes last
+   * silently overwrites the other's record of what's actually in sync.
+   * Also guards against a stalled request permanently jamming every later
+   * operation: if the SFTP channel drops a request without ever erroring
+   * (rare, but happens on flaky connections), the queue would otherwise
+   * wait forever. A timeout resets the connection and unblocks it instead.
    */
-  async runExclusive<T>(connectionId: string, operation: () => Promise<T>): Promise<T> {
+  async runExclusive<T>(connectionId: string, operation: () => Promise<T>, timeoutMs = 45000): Promise<T> {
     const previous = this.operationQueues.get(connectionId) ?? Promise.resolve();
-    const settle = previous.then(operation, operation);
+    const run = () => this.withTimeout(connectionId, operation(), timeoutMs);
+    const settle = previous.then(run, run);
     this.operationQueues.set(
       connectionId,
       settle.then(
@@ -32,6 +37,25 @@ export class ConnectionManager {
       ),
     );
     return settle;
+  }
+
+  private async withTimeout<T>(connectionId: string, promise: Promise<T>, timeoutMs: number): Promise<T> {
+    let timer: ReturnType<typeof setTimeout>;
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => {
+        this.disconnect(connectionId);
+        reject(
+          new Error(
+            'Timed out waiting for the server — the connection may have stalled. It has been reset; please try again.',
+          ),
+        );
+      }, timeoutMs);
+    });
+    try {
+      return await Promise.race([promise, timeout]);
+    } finally {
+      clearTimeout(timer!);
+    }
   }
 
   isConnected(connectionId: string): boolean {
