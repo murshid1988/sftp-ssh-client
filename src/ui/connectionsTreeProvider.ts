@@ -199,8 +199,14 @@ export class ConnectionsTreeProvider implements vscode.TreeDataProvider<Node> {
 
   private async listRemoteDir(conn: ConnectionConfig, dirPath: string): Promise<Node[]> {
     try {
-      const sftp = await this.connectionManager.getSftp(conn);
-      const entries = await readdir(sftp, dirPath);
+      // Share the same "one operation at a time" queue as uploads/downloads —
+      // otherwise browsing the tree while a transfer is in flight issues a
+      // readdir on the same SFTP channel concurrently with the transfer's own
+      // requests, which can stall the whole channel.
+      const entries = await this.connectionManager.runExclusive(conn.id, async () => {
+        const sftp = await this.connectionManager.getSftp(conn);
+        return readdir(sftp, dirPath);
+      });
       const manifest = this.manifestStore.get(conn.id);
       const fullyDownloadedFolders = this.manifestStore.getFullyDownloadedFolders(conn.id);
 
