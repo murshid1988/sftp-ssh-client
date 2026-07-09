@@ -49,8 +49,6 @@ export class LocalChangeWatcher {
     }
   }
 
-  // Scoped per connection so editing a file in one connection's local folder
-  // doesn't force every OTHER connection's expanded folders to refetch too.
   private scheduleRefresh(connectionId: string): void {
     const existing = this.debounceTimers.get(connectionId);
     if (existing) {
@@ -59,7 +57,14 @@ export class LocalChangeWatcher {
     this.debounceTimers.set(
       connectionId,
       setTimeout(() => {
-        this.treeProvider.refreshConnection(connectionId);
+        // A scoped refresh (just the connection row) only tells VS Code to
+        // re-check that row's *immediate* children — it doesn't reliably
+        // cascade into already-expanded grandchildren several levels deep
+        // (e.g. a file under connection > folder > subfolder). A full
+        // refresh does, so status changes on deeply nested files actually
+        // show up instead of looking stale until something else forces a
+        // deeper re-render.
+        this.treeProvider.refresh();
         this.decorationProvider.refreshAll();
       }, 300),
     );

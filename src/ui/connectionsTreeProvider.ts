@@ -138,35 +138,19 @@ export class ConnectionsTreeProvider implements vscode.TreeDataProvider<Node> {
     if (existing) {
       clearTimeout(existing);
     }
+    // A scoped per-connection refresh only reliably reaches that connection
+    // row's immediate children, not several levels of already-expanded
+    // descendants (e.g. a syncing file nested under folder > subfolder) — so
+    // always do a full refresh here rather than trying to target just one
+    // connection.
     this.refreshDebounceTimers.set(
       key,
-      setTimeout(() => (connectionId ? this.refreshConnection(connectionId) : this.refresh()), 400),
+      setTimeout(() => this.refresh(), 400),
     );
   }
 
   refresh(): void {
     this.emitter.fire(undefined);
-  }
-
-  /**
-   * Invalidates only one connection's subtree instead of every expanded
-   * folder across every connection — used for local file-change events,
-   * which only ever affect a single connection's local folder.
-   */
-  refreshConnection(connectionId: string): void {
-    const conn = getConnections().find((c) => c.id === connectionId);
-    if (!conn) {
-      this.refresh();
-      return;
-    }
-    this.emitter.fire(
-      new ConnectionTreeItem(
-        conn,
-        this.connectionManager.isConnected(conn.id),
-        this.autoSyncManager.isActive(conn.id),
-        countPendingUploads(conn, this.manifestStore),
-      ),
-    );
   }
 
   getTreeItem(element: Node): vscode.TreeItem {
