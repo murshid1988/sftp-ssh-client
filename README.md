@@ -1,8 +1,8 @@
 # SFTP/SSH Client — Local Sync for AI Agents
 
-Pull a project from a remote SFTP/SSH server into a local folder, work on it with any AI coding agent (Claude Code, etc.) or your editor, then sync changes back up — built for hosts that don't allow agents to be installed directly on the server. Every connection is configured through friendly forms, never by hand-editing `settings.json`.
+![SFTP/SSH Client — sync a remote server to a local folder and back](images/hero.png)
 
-![SFTP/SSH sidebar showing a connected server with per-file sync status](images/sidebar-tree.png)
+Pull a project from a remote SFTP/SSH server into a local folder, work on it with any AI coding agent (Claude Code, etc.) or your editor, then sync changes back up — built for hosts that don't allow agents to be installed directly on the server. Every connection is configured through friendly forms, never by hand-editing `settings.json`.
 
 ## Why
 
@@ -16,6 +16,8 @@ Some hosting providers block installing agent tooling on the server itself. The 
 - **Manual or automatic sync** — click to sync, or turn on auto-sync per connection to upload changes as soon as you save
 - **Conflict-safe** — detects when a file changed on the server (or locally) since your last sync and asks before overwriting, with the option to pull the newer version instead
 - **Status at a glance** — Explorer badges, sidebar icons, a "N pending" counter per connection, and a status bar sync indicator
+
+![SFTP/SSH sidebar showing a connected server with per-file sync status](images/sidebar-tree.png)
 
 See [FEATURES.md](FEATURES.md) for the full list plus what's planned next.
 

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2b6cb0"/>
+      <stop offset="100%" stop-color="#1a365d"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05"/>
+    </linearGradient>
+    <marker id="arrowRight" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8ecbff"/>
+    </marker>
+    <marker id="arrowLeft" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M10,0 L0,5 L10,10 z" fill="#8ecbff"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="400" rx="28" fill="url(#bg)"/>
+
+  <!-- Local computer, left -->
+  <g transform="translate(120,120)">
+    <rect x="0" y="0" width="220" height="150" rx="14" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.25"/>
+    <!-- laptop base -->
+    <rect x="40" y="40" width="140" height="88" rx="8" fill="#0f2745"/>
+    <rect x="52" y="52" width="116" height="64" rx="3" fill="#dbeafe"/>
+    <!-- folder glyph on screen -->
+    <path d="M70 78 h30 l8 10 h34 v22 h-72 z" fill="#2b6cb0"/>
+    <rect x="20" y="128" width="180" height="10" rx="5" fill="#0f2745"/>
+  </g>
+  <text x="230" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#eaf3ff" font-weight="600">Your Computer</text>
+
+  <!-- Remote server, right -->
+  <g transform="translate(860,120)">
+    <rect x="0" y="0" width="220" height="150" rx="14" fill="url(#panel)" stroke="#ffffff" stroke-opacity="0.25"/>
+    <g transform="translate(45,25)">
+      <rect x="0" y="0" width="130" height="30" rx="5" fill="#0f2745"/>
+      <circle cx="14" cy="15" r="4" fill="#7ee787"/>
+      <rect x="30" y="10" width="80" height="10" rx="3" fill="#3b6fa0"/>
+
+      <rect x="0" y="38" width="130" height="30" rx="5" fill="#0f2745"/>
+      <circle cx="14" cy="53" r="4" fill="#7ee787"/>
+      <rect x="30" y="48" width="80" height="10" rx="3" fill="#3b6fa0"/>
+
+      <rect x="0" y="76" width="130" height="30" rx="5" fill="#0f2745"/>
+      <circle cx="14" cy="91" r="4" fill="#7ee787"/>
+      <rect x="30" y="86" width="80" height="10" rx="3" fill="#3b6fa0"/>
+    </g>
+  </g>
+  <text x="970" y="300" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#eaf3ff" font-weight="600">Remote Server</text>
+
+  <!-- Sync arrows -->
+  <path d="M 360 165 C 480 130, 620 130, 840 165" fill="none" stroke="#8ecbff" stroke-width="5" marker-end="url(#arrowRight)"/>
+  <path d="M 840 205 C 620 240, 480 240, 360 205" fill="none" stroke="#8ecbff" stroke-width="5" marker-end="url(#arrowLeft)"/>
+
+  <!-- Lock badge in the middle, signalling conflict-safe sync -->
+  <g transform="translate(566,150)">
+    <circle cx="34" cy="34" r="34" fill="#0f2745" stroke="#8ecbff" stroke-width="3"/>
+    <rect x="20" y="32" width="28" height="20" rx="4" fill="#8ecbff"/>
+    <path d="M25 32 v-8 a9 9 0 0 1 18 0 v8" fill="none" stroke="#8ecbff" stroke-width="4"/>
+  </g>
+
+  <text x="600" y="70" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="42" fill="#ffffff" font-weight="700">SFTP/SSH Client</text>
+  <text x="600" y="104" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#bcdcff">Local Sync for AI Coding Agents</text>
+</svg>

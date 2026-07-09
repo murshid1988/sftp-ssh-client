@@ -5,6 +5,7 @@ out/**
 .github/**
 .claude/**
 resources/marketplace-icon-source.svg
+resources/hero-source.svg
 images/README.md
 *.vsix
 *.map
