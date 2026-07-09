@@ -3,17 +3,17 @@
   "displayName": "SFTP/SSH Client — Local Sync for AI Agents",
   "description": "Sync remote SFTP/SSH projects to a local folder so AI coding agents can work on them, then push changes back. Fully configurable from the Settings UI — no JSON editing.",
   "version": "0.1.0",
-  "publisher": "YOUR_PUBLISHER_ID",
+  "publisher": "murshid-ahmed",
   "license": "MIT",
   "icon": "resources/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_GITHUB_USERNAME/sftp-ssh-client"
+    "url": "https://github.com/murshid1988/sftp-ssh-client"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_GITHUB_USERNAME/sftp-ssh-client/issues"
+    "url": "https://github.com/murshid1988/sftp-ssh-client/issues"
   },
-  "homepage": "https://github.com/YOUR_GITHUB_USERNAME/sftp-ssh-client#readme",
+  "homepage": "https://github.com/murshid1988/sftp-ssh-client#readme",
   "keywords": ["sftp", "ssh", "remote", "sync", "ai agent", "claude", "deploy", "wordpress", "server"],
   "engines": {
     "vscode": "^1.90.0",
