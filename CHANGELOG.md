@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Add a branded hero image and README screenshots.
+
 ## 0.1.0 — Initial release
 
 - Connection management via a form-based **Manage Connections** panel — no manual JSON editing.
