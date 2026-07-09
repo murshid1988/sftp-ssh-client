@@ -21,7 +21,7 @@ See [FEATURES.md](FEATURES.md) for the full list plus what's planned next.
 
 ## Install
 
-Search **"SFTP/SSH Client — Local Sync for AI Agents"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=YOUR_PUBLISHER_ID.sftp-ssh-client) *(link active once published — see [PUBLISHING.md](PUBLISHING.md))*.
+Search **"SFTP/SSH Client — Local Sync for AI Agents"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=murshid-ahmed.sftp-ssh-client).
 
 ## Getting started
 
@@ -50,6 +50,7 @@ Search **"SFTP/SSH Client — Local Sync for AI Agents"** in the VS Code Extensi
 | `SFTP/SSH: Toggle Auto-Sync` | Turn upload-on-save on/off for a connection |
 | `SFTP/SSH: Disconnect` | Close the active connection |
 | `SFTP/SSH: Upload This File/Folder` / `Download Latest From Server` | Right-click (or editor tab context menu) actions scoped to one file/folder |
+| `SFTP/SSH: Mark as Synced (No Transfer)` | Re-establish tracking for a file/folder without transferring anything — useful after changing a connection's Remote Path |
 | `SFTP/SSH: Show Menu` | Quick picker for all of the above, plus opening the log |
 | `SFTP/SSH: Open Log` | Jump to the extension's Output channel |
 
