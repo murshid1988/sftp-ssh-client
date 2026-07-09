@@ -7,6 +7,7 @@ import { SyncManifestStore } from '../sync/syncManifest';
 import { AutoSyncManager } from '../sync/autoSyncWatcher';
 import { downloadWorkspace, downloadRemotePath } from '../sync/downloadWorkspace';
 import { uploadChanges, uploadLocalPath, UploadResult } from '../sync/uploadChanges';
+import { markRemotePathSynced } from '../sync/markSynced';
 import { joinRemote } from '../ssh/sftpService';
 import { SftpStatusBar } from './statusBar';
 import { ConnectionManagerPanel } from './connectionManagerPanel';
@@ -190,6 +191,41 @@ export function registerCommands(
             treeProvider.refresh();
           } catch (err) {
             vscode.window.showErrorMessage(`Download failed: ${(err as Error).message}`);
+          }
+        },
+      );
+    }),
+
+    vscode.commands.registerCommand('sftpSsh.markRemoteItemSynced', async (item: RemoteEntryTreeItem) => {
+      if (!item) {
+        return;
+      }
+      const conn = item.connection;
+      const choice = await vscode.window.showInformationMessage(
+        `Mark "${item.relativePath}" as already in sync? This only updates tracking — it won't transfer any files. Only use this if the local and remote copies genuinely already match (e.g. after changing this connection's Remote Path).`,
+        { modal: true },
+        'Mark as Synced',
+      );
+      if (choice !== 'Mark as Synced') {
+        return;
+      }
+      await vscode.window.withProgress(
+        { location: vscode.ProgressLocation.Notification, title: `Marking "${item.relativePath}" as synced…` },
+        async () => {
+          try {
+            const result = await connectionManager.runExclusive(conn.id, async () => {
+              const sftp = await connectionManager.getSftp(conn);
+              return markRemotePathSynced(sftp, conn, item.remotePath, manifestStore);
+            });
+            vscode.window.showInformationMessage(
+              `Marked ${result.marked} file(s) as synced` +
+                (result.skippedNoLocalCounterpart.length
+                  ? `, ${result.skippedNoLocalCounterpart.length} skipped (no local copy found — those still need an actual download).`
+                  : '.'),
+            );
+            treeProvider.refresh();
+          } catch (err) {
+            vscode.window.showErrorMessage(`Failed to mark as synced: ${(err as Error).message}`);
           }
         },
       );

@@ -98,6 +98,7 @@
       { "command": "sftpSsh.downloadWorkspace", "title": "SFTP/SSH: Download Workspace", "icon": "$(cloud-download)" },
       { "command": "sftpSsh.downloadRemoteItem", "title": "SFTP/SSH: Download This Item", "icon": "$(cloud-download)" },
       { "command": "sftpSsh.uploadRemoteItem", "title": "SFTP/SSH: Upload This Item", "icon": "$(cloud-upload)" },
+      { "command": "sftpSsh.markRemoteItemSynced", "title": "SFTP/SSH: Mark as Synced (No Transfer)" },
       { "command": "sftpSsh.syncNow", "title": "SFTP/SSH: Sync Now (Upload Changes)", "icon": "$(cloud-upload)" },
       { "command": "sftpSsh.toggleAutoSync", "title": "SFTP/SSH: Toggle Auto-Sync", "icon": "$(sync)" },
       { "command": "sftpSsh.uploadFile", "title": "SFTP/SSH: Upload This File/Folder", "icon": "$(cloud-upload)" },
@@ -133,7 +134,8 @@
         { "command": "sftpSsh.syncNow", "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/", "group": "inline@3" },
         { "command": "sftpSsh.toggleAutoSync", "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/", "group": "inline@4" },
         { "command": "sftpSsh.uploadRemoteItem", "when": "view == sftpSshConnections && viewItem == remoteFile-modified", "group": "inline@1" },
-        { "command": "sftpSsh.downloadRemoteItem", "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/", "group": "inline@2" }
+        { "command": "sftpSsh.downloadRemoteItem", "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/", "group": "inline@2" },
+        { "command": "sftpSsh.markRemoteItemSynced", "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/", "group": "2_advanced" }
       ],
       "explorer/context": [
         { "command": "sftpSsh.uploadFile", "group": "6_sftpSsh@1" },
