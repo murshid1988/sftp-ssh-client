@@ -35,10 +35,6 @@ export function getConnectionById(id: string): ConnectionConfig | undefined {
   return getConnections().find((c) => c.id === id);
 }
 
-export function getAutoSyncPollIntervalSeconds(): number {
-  return vscode.workspace.getConfiguration('sftpSsh').get<number>('autoSyncPollIntervalSeconds', 30);
-}
-
 /** Finds the connection whose local folder contains (or equals) the given path, if any. */
 export function findConnectionForLocalPath(fsPath: string): ConnectionConfig | undefined {
   return getConnections().find((c) => {

@@ -1,14 +1,12 @@
 import * as vscode from 'vscode';
 import { SFTPWrapper } from 'ssh2';
-import { ConnectionConfig, getAutoSyncPollIntervalSeconds } from '../connections/connectionConfig';
+import { ConnectionConfig } from '../connections/connectionConfig';
 import { SyncManifestStore } from './syncManifest';
 import { uploadChanges } from './uploadChanges';
-import { downloadWorkspace } from './downloadWorkspace';
 import { SyncingTracker } from './syncingTracker';
 
 interface WatcherHandle {
   fsWatcher: vscode.FileSystemWatcher;
-  pollTimer: ReturnType<typeof setInterval>;
   debounceTimer?: ReturnType<typeof setTimeout>;
 }
 
@@ -34,13 +32,7 @@ export class AutoSyncManager {
 
     const pattern = new vscode.RelativePattern(conn.localPath, '**/*');
     const fsWatcher = vscode.workspace.createFileSystemWatcher(pattern);
-
-    const handle: WatcherHandle = {
-      fsWatcher,
-      pollTimer: setInterval(() => {
-        this.runDownload(conn).catch((err) => this.log(`Auto-sync download failed for ${conn.id}: ${err.message}`));
-      }, getAutoSyncPollIntervalSeconds() * 1000),
-    };
+    const handle: WatcherHandle = { fsWatcher };
 
     const scheduleUpload = () => {
       if (handle.debounceTimer) {
@@ -55,7 +47,7 @@ export class AutoSyncManager {
     fsWatcher.onDidCreate(scheduleUpload);
 
     this.watchers.set(conn.id, handle);
-    this.log(`Auto-sync started for "${conn.id}".`);
+    this.log(`Auto-sync started for "${conn.id}" (upload on save; use Download Workspace to pull remote changes).`);
   }
 
   stop(connectionId: string): void {
@@ -64,7 +56,6 @@ export class AutoSyncManager {
       return;
     }
     handle.fsWatcher.dispose();
-    clearInterval(handle.pollTimer);
     if (handle.debounceTimer) {
       clearTimeout(handle.debounceTimer);
     }
@@ -87,16 +78,6 @@ export class AutoSyncManager {
           `Auto-sync: "${conn.id}" — ${result.uploaded} uploaded, ` +
             `${result.downloadedInstead.length} pulled from server instead, ${result.skippedConflicts.length} skipped.`,
         );
-      }
-    });
-  }
-
-  private async runDownload(conn: ConnectionConfig): Promise<void> {
-    await this.runExclusive(conn.id, async () => {
-      const sftp = await this.getSftp(conn);
-      const result = await downloadWorkspace(sftp, conn, this.manifestStore, this.syncingTracker);
-      if (result.downloaded > 0) {
-        this.log(`Auto-sync: downloaded ${result.downloaded} file(s) for "${conn.id}".`);
       }
     });
   }

@@ -13,7 +13,7 @@ Some hosting providers block installing agent tooling on the server itself. The 
 - **No JSON editing** — connections are added through a form panel with validation and file/folder pickers
 - **Multiple auth methods** — password, private key file, SSH agent, or your existing `~/.ssh/config`
 - **Browse before you download** — a sidebar tree lists the real remote filesystem, with per-file/per-folder download and upload actions
-- **Manual or automatic sync** — click to sync, or turn on auto-sync per connection (uploads on save, polls for remote changes)
+- **Manual or automatic sync** — click to sync, or turn on auto-sync per connection to upload changes as soon as you save
 - **Conflict-safe** — detects when a file changed on the server (or locally) since your last sync and asks before overwriting, with the option to pull the newer version instead
 - **Status at a glance** — Explorer badges, sidebar icons, a "N pending" counter per connection, and a status bar sync indicator
 
@@ -47,7 +47,7 @@ Search **"SFTP/SSH Client — Local Sync for AI Agents"** in the VS Code Extensi
 | `SFTP/SSH: Test Connection` | Verify a connection can authenticate |
 | `SFTP/SSH: Download Workspace` | Pull a connection's whole remote folder locally |
 | `SFTP/SSH: Sync Now (Upload Changes)` | Upload everything changed locally since the last sync |
-| `SFTP/SSH: Toggle Auto-Sync` | Turn upload-on-save + remote polling on/off for a connection |
+| `SFTP/SSH: Toggle Auto-Sync` | Turn upload-on-save on/off for a connection |
 | `SFTP/SSH: Disconnect` | Close the active connection |
 | `SFTP/SSH: Upload This File/Folder` / `Download Latest From Server` | Right-click (or editor tab context menu) actions scoped to one file/folder |
 | `SFTP/SSH: Show Menu` | Quick picker for all of the above, plus opening the log |
@@ -61,7 +61,7 @@ Before overwriting a file in either direction, the extension checks whether it c
 
 ## Settings
 
-Per-connection options (host, auth, paths, sync mode) live in **Manage Connections**. A couple of global preferences are simple enough for native VS Code Settings — search **"SFTP SSH"** in Settings for the auto-sync poll interval.
+All connection options (host, auth, paths, sync mode) live in **Manage Connections** — there are no separate global settings to configure.
 
 ## Development
 

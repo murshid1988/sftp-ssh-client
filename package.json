@@ -80,19 +80,13 @@
                 "enum": ["manual", "auto"],
                 "enumDescriptions": [
                   "Only sync when you run \"Download Workspace\" or \"Sync Now\".",
-                  "Automatically upload changes as you save files, and periodically check for remote changes."
+                  "Automatically upload changes as soon as you save a file. Pulling remote-side changes is still a deliberate action (Download Workspace / Download This Item), since re-scanning the whole remote folder on a timer doesn't scale to real projects."
                 ],
                 "default": "manual",
                 "description": "How this connection stays in sync."
               }
             }
           }
-        },
-        "sftpSsh.autoSyncPollIntervalSeconds": {
-          "type": "number",
-          "default": 30,
-          "minimum": 5,
-          "description": "How often (in seconds) to check the remote server for changes when a connection's Sync Mode is set to \"auto\"."
         }
       }
     },
