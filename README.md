@@ -19,8 +19,6 @@ Some hosting providers block installing agent tooling on the server itself. The 
 
 ![SFTP/SSH sidebar showing a connected server with per-file sync status](images/sidebar-tree.png)
 
-See [FEATURES.md](FEATURES.md) for the full list plus what's planned next.
-
 ## Install
 
 Search **"SFTP/SSH Client — Local Sync for AI Agents"** in the VS Code Extensions view, or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=murshid-ahmed.sftp-ssh-client).
@@ -74,8 +72,8 @@ npm run compile   # typecheck + bundle
 npm run lint
 ```
 
-Press `F5` in VS Code to launch an Extension Development Host for manual testing. See [PUBLISHING.md](PUBLISHING.md) for packaging and release steps.
+Press `F5` in VS Code to launch an Extension Development Host for manual testing.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/murshid1988/sftp-ssh-client/blob/main/LICENSE)
