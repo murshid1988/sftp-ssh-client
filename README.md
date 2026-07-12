@@ -74,6 +74,10 @@ npm run lint
 
 Press `F5` in VS Code to launch an Extension Development Host for manual testing.
 
+## Support
+
+If this extension saves you time, consider [buying me a coffee on Ko-fi](https://ko-fi.com/murshid1988).
+
 ## License
 
 [MIT](https://github.com/murshid1988/sftp-ssh-client/blob/main/LICENSE)

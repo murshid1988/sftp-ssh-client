@@ -14,6 +14,9 @@
     "url": "https://github.com/murshid1988/sftp-ssh-client/issues"
   },
   "homepage": "https://github.com/murshid1988/sftp-ssh-client#readme",
+  "sponsor": {
+    "url": "https://ko-fi.com/murshid1988"
+  },
   "keywords": ["sftp", "ssh", "remote", "sync", "ai agent", "claude", "deploy", "wordpress", "server"],
   "engines": {
     "vscode": "^1.90.0",
