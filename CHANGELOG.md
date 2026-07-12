@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Add a Ko-fi support link to the README.
+
 ## 0.1.1
 
 - Add a branded hero image and README screenshots.

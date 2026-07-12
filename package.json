@@ -2,7 +2,7 @@
   "name": "sftp-ssh-client",
   "displayName": "SFTP/SSH Client — Local Sync for AI Agents",
   "description": "Sync remote SFTP/SSH projects to a local folder so AI coding agents can work on them, then push changes back. Fully configurable from the Settings UI — no JSON editing.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "murshid-ahmed",
   "license": "MIT",
   "icon": "resources/icon.png",
@@ -17,12 +17,24 @@
   "sponsor": {
     "url": "https://ko-fi.com/murshid1988"
   },
-  "keywords": ["sftp", "ssh", "remote", "sync", "ai agent", "claude", "deploy", "wordpress", "server"],
+  "keywords": [
+    "sftp",
+    "ssh",
+    "remote",
+    "sync",
+    "ai agent",
+    "claude",
+    "deploy",
+    "wordpress",
+    "server"
+  ],
   "engines": {
     "vscode": "^1.90.0",
     "node": ">=20"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -35,7 +47,13 @@
           "markdownDescription": "Remote SFTP/SSH connections. Add one entry per server. Passwords and key passphrases are **not** stored here — you'll be prompted securely the first time you connect.",
           "items": {
             "type": "object",
-            "required": ["id", "host", "username", "remotePath", "localPath"],
+            "required": [
+              "id",
+              "host",
+              "username",
+              "remotePath",
+              "localPath"
+            ],
             "properties": {
               "id": {
                 "type": "string",
@@ -56,7 +74,12 @@
               },
               "authType": {
                 "type": "string",
-                "enum": ["password", "privateKey", "agent", "sshConfig"],
+                "enum": [
+                  "password",
+                  "privateKey",
+                  "agent",
+                  "sshConfig"
+                ],
                 "enumDescriptions": [
                   "Log in with a password (you'll be prompted securely).",
                   "Log in with an SSH private key file.",
@@ -80,7 +103,10 @@
               },
               "syncMode": {
                 "type": "string",
-                "enum": ["manual", "auto"],
+                "enum": [
+                  "manual",
+                  "auto"
+                ],
                 "enumDescriptions": [
                   "Only sync when you run \"Download Workspace\" or \"Sync Now\".",
                   "Automatically upload changes as soon as you save a file. Pulling remote-side changes is still a deliberate action (Download Workspace / Download This Item), since re-scanning the whole remote folder on a timer doesn't scale to real projects."
@@ -94,29 +120,90 @@
       }
     },
     "commands": [
-      { "command": "sftpSsh.manageConnections", "title": "SFTP/SSH: Manage Connections", "icon": "$(add)" },
-      { "command": "sftpSsh.refreshConnections", "title": "SFTP/SSH: Refresh Connections", "icon": "$(refresh)" },
-      { "command": "sftpSsh.testConnection", "title": "SFTP/SSH: Test Connection", "icon": "$(plug)" },
-      { "command": "sftpSsh.disconnect", "title": "SFTP/SSH: Disconnect", "icon": "$(debug-disconnect)" },
-      { "command": "sftpSsh.downloadWorkspace", "title": "SFTP/SSH: Download Workspace", "icon": "$(cloud-download)" },
-      { "command": "sftpSsh.downloadRemoteItem", "title": "SFTP/SSH: Download This Item", "icon": "$(cloud-download)" },
-      { "command": "sftpSsh.uploadRemoteItem", "title": "SFTP/SSH: Upload This Item", "icon": "$(cloud-upload)" },
-      { "command": "sftpSsh.markRemoteItemSynced", "title": "SFTP/SSH: Mark as Synced (No Transfer)" },
-      { "command": "sftpSsh.syncNow", "title": "SFTP/SSH: Sync Now (Upload Changes)", "icon": "$(cloud-upload)" },
-      { "command": "sftpSsh.toggleAutoSync", "title": "SFTP/SSH: Toggle Auto-Sync", "icon": "$(sync)" },
-      { "command": "sftpSsh.uploadFile", "title": "SFTP/SSH: Upload This File/Folder", "icon": "$(cloud-upload)" },
-      { "command": "sftpSsh.downloadFile", "title": "SFTP/SSH: Download Latest From Server", "icon": "$(cloud-download)" },
-      { "command": "sftpSsh.openLog", "title": "SFTP/SSH: Open Log", "icon": "$(output)" },
-      { "command": "sftpSsh.showMenu", "title": "SFTP/SSH: Show Menu" }
+      {
+        "command": "sftpSsh.manageConnections",
+        "title": "SFTP/SSH: Manage Connections",
+        "icon": "$(add)"
+      },
+      {
+        "command": "sftpSsh.refreshConnections",
+        "title": "SFTP/SSH: Refresh Connections",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "sftpSsh.testConnection",
+        "title": "SFTP/SSH: Test Connection",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "sftpSsh.disconnect",
+        "title": "SFTP/SSH: Disconnect",
+        "icon": "$(debug-disconnect)"
+      },
+      {
+        "command": "sftpSsh.downloadWorkspace",
+        "title": "SFTP/SSH: Download Workspace",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "sftpSsh.downloadRemoteItem",
+        "title": "SFTP/SSH: Download This Item",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "sftpSsh.uploadRemoteItem",
+        "title": "SFTP/SSH: Upload This Item",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "sftpSsh.markRemoteItemSynced",
+        "title": "SFTP/SSH: Mark as Synced (No Transfer)"
+      },
+      {
+        "command": "sftpSsh.syncNow",
+        "title": "SFTP/SSH: Sync Now (Upload Changes)",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "sftpSsh.toggleAutoSync",
+        "title": "SFTP/SSH: Toggle Auto-Sync",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "sftpSsh.uploadFile",
+        "title": "SFTP/SSH: Upload This File/Folder",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "sftpSsh.downloadFile",
+        "title": "SFTP/SSH: Download Latest From Server",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "sftpSsh.openLog",
+        "title": "SFTP/SSH: Open Log",
+        "icon": "$(output)"
+      },
+      {
+        "command": "sftpSsh.showMenu",
+        "title": "SFTP/SSH: Show Menu"
+      }
     ],
     "viewsContainers": {
       "activitybar": [
-        { "id": "sftpSsh", "title": "SFTP/SSH", "icon": "resources/icon.svg" }
+        {
+          "id": "sftpSsh",
+          "title": "SFTP/SSH",
+          "icon": "resources/icon.svg"
+        }
       ]
     },
     "views": {
       "sftpSsh": [
-        { "id": "sftpSshConnections", "name": "Connections" }
+        {
+          "id": "sftpSshConnections",
+          "name": "Connections"
+        }
       ]
     },
     "viewsWelcome": [
@@ -127,26 +214,78 @@
     ],
     "menus": {
       "view/title": [
-        { "command": "sftpSsh.manageConnections", "when": "view == sftpSshConnections", "group": "navigation@1" },
-        { "command": "sftpSsh.refreshConnections", "when": "view == sftpSshConnections", "group": "navigation@2" }
+        {
+          "command": "sftpSsh.manageConnections",
+          "when": "view == sftpSshConnections",
+          "group": "navigation@1"
+        },
+        {
+          "command": "sftpSsh.refreshConnections",
+          "when": "view == sftpSshConnections",
+          "group": "navigation@2"
+        }
       ],
       "view/item/context": [
-        { "command": "sftpSsh.testConnection", "when": "view == sftpSshConnections && viewItem == sftpConnectionDisconnected", "group": "inline@1" },
-        { "command": "sftpSsh.disconnect", "when": "view == sftpSshConnections && viewItem == sftpConnectionConnected", "group": "inline@1" },
-        { "command": "sftpSsh.downloadWorkspace", "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/", "group": "inline@2" },
-        { "command": "sftpSsh.syncNow", "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/", "group": "inline@3" },
-        { "command": "sftpSsh.toggleAutoSync", "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/", "group": "inline@4" },
-        { "command": "sftpSsh.uploadRemoteItem", "when": "view == sftpSshConnections && viewItem == remoteFile-modified", "group": "inline@1" },
-        { "command": "sftpSsh.downloadRemoteItem", "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/", "group": "inline@2" },
-        { "command": "sftpSsh.markRemoteItemSynced", "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/", "group": "2_advanced" }
+        {
+          "command": "sftpSsh.testConnection",
+          "when": "view == sftpSshConnections && viewItem == sftpConnectionDisconnected",
+          "group": "inline@1"
+        },
+        {
+          "command": "sftpSsh.disconnect",
+          "when": "view == sftpSshConnections && viewItem == sftpConnectionConnected",
+          "group": "inline@1"
+        },
+        {
+          "command": "sftpSsh.downloadWorkspace",
+          "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/",
+          "group": "inline@2"
+        },
+        {
+          "command": "sftpSsh.syncNow",
+          "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/",
+          "group": "inline@3"
+        },
+        {
+          "command": "sftpSsh.toggleAutoSync",
+          "when": "view == sftpSshConnections && viewItem =~ /^sftpConnection/",
+          "group": "inline@4"
+        },
+        {
+          "command": "sftpSsh.uploadRemoteItem",
+          "when": "view == sftpSshConnections && viewItem == remoteFile-modified",
+          "group": "inline@1"
+        },
+        {
+          "command": "sftpSsh.downloadRemoteItem",
+          "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/",
+          "group": "inline@2"
+        },
+        {
+          "command": "sftpSsh.markRemoteItemSynced",
+          "when": "view == sftpSshConnections && viewItem =~ /^remote(Dir|File)/",
+          "group": "2_advanced"
+        }
       ],
       "explorer/context": [
-        { "command": "sftpSsh.uploadFile", "group": "6_sftpSsh@1" },
-        { "command": "sftpSsh.downloadFile", "group": "6_sftpSsh@2" }
+        {
+          "command": "sftpSsh.uploadFile",
+          "group": "6_sftpSsh@1"
+        },
+        {
+          "command": "sftpSsh.downloadFile",
+          "group": "6_sftpSsh@2"
+        }
       ],
       "editor/title/context": [
-        { "command": "sftpSsh.uploadFile", "group": "6_sftpSsh@1" },
-        { "command": "sftpSsh.downloadFile", "group": "6_sftpSsh@2" }
+        {
+          "command": "sftpSsh.uploadFile",
+          "group": "6_sftpSsh@1"
+        },
+        {
+          "command": "sftpSsh.downloadFile",
+          "group": "6_sftpSsh@2"
+        }
       ]
     }
   },
