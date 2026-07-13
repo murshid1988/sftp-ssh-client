@@ -2,7 +2,7 @@
   "name": "sftp-ssh-client",
   "displayName": "SFTP/SSH Client — Local Sync for AI Agents",
   "description": "Sync remote SFTP/SSH projects to a local folder so AI coding agents can work on them, then push changes back. Fully configurable from the Settings UI — no JSON editing.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "murshid-ahmed",
   "license": "MIT",
   "icon": "resources/icon.png",

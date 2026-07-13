@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Fix downloads/uploads of large folders being killed by a 45s timeout meant only to detect a genuinely stalled connection. Transfers now get 20 minutes before being treated as stalled.
+
 ## 0.1.2
 
 - Add a Ko-fi support link to the README.
