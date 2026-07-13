@@ -5,6 +5,9 @@ import { SecretStore } from './secretStore';
 import { buildConnectConfig, connect } from '../ssh/sshClient';
 import { getSftp } from '../ssh/sftpService';
 
+/** Long-running transfers (download/upload/sync) get more headroom than quick browse/test operations. */
+export const TRANSFER_TIMEOUT_MS = 20 * 60 * 1000;
+
 export class ConnectionManager {
   private readonly clients = new Map<string, Client>();
   private readonly sftpSessions = new Map<string, SFTPWrapper>();

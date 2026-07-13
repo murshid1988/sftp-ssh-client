@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getConnections, ConnectionConfig, findConnectionForLocalPath } from '../connections/connectionConfig';
-import { ConnectionManager } from '../connections/connectionManager';
+import { ConnectionManager, TRANSFER_TIMEOUT_MS } from '../connections/connectionManager';
 import { SyncManifestStore } from '../sync/syncManifest';
 import { AutoSyncManager } from '../sync/autoSyncWatcher';
 import { downloadWorkspace, downloadRemotePath } from '../sync/downloadWorkspace';
@@ -122,10 +122,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Downloading "${conn.id}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return downloadWorkspace(sftp, conn, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return downloadWorkspace(sftp, conn, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             const message =
               `Downloaded ${result.downloaded} file(s) for "${conn.id}"` +
               (result.skippedConflicts.length ? `, skipped ${result.skippedConflicts.length} conflict(s).` : '.');
@@ -158,10 +162,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Syncing "${conn.id}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return uploadChanges(sftp, conn, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return uploadChanges(sftp, conn, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             vscode.window.showInformationMessage(formatUploadMessage(`Synced "${conn.id}":`, result));
             treeProvider.refresh();
           } catch (err) {
@@ -180,10 +188,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Downloading "${item.relativePath}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return downloadRemotePath(sftp, conn, item.remotePath, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return downloadRemotePath(sftp, conn, item.remotePath, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             vscode.window.showInformationMessage(
               `Downloaded ${result.downloaded} file(s) from "${item.relativePath}"` +
                 (result.skippedConflicts.length ? `, skipped ${result.skippedConflicts.length} conflict(s).` : '.'),
@@ -245,10 +257,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Uploading "${item.relativePath}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return uploadLocalPath(sftp, conn, localTargetPath, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return uploadLocalPath(sftp, conn, localTargetPath, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             vscode.window.showInformationMessage(formatUploadMessage(`"${item.relativePath}":`, result));
             treeProvider.refresh();
           } catch (err) {
@@ -273,10 +289,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Uploading "${label}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return uploadLocalPath(sftp, conn, targetUri.fsPath, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return uploadLocalPath(sftp, conn, targetUri.fsPath, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             vscode.window.showInformationMessage(formatUploadMessage(`Uploaded to "${conn.id}":`, result));
             treeProvider.refresh();
           } catch (err) {
@@ -303,10 +323,14 @@ export function registerCommands(
         { location: vscode.ProgressLocation.Notification, title: `Downloading "${label}"…` },
         async () => {
           try {
-            const result = await connectionManager.runExclusive(conn.id, async () => {
-              const sftp = await connectionManager.getSftp(conn);
-              return downloadRemotePath(sftp, conn, remoteTargetPath, manifestStore, syncingTracker);
-            });
+            const result = await connectionManager.runExclusive(
+              conn.id,
+              async () => {
+                const sftp = await connectionManager.getSftp(conn);
+                return downloadRemotePath(sftp, conn, remoteTargetPath, manifestStore, syncingTracker);
+              },
+              TRANSFER_TIMEOUT_MS,
+            );
             vscode.window.showInformationMessage(
               `Downloaded ${result.downloaded} file(s) from "${conn.id}"` +
                 (result.skippedConflicts.length ? `, skipped ${result.skippedConflicts.length} conflict(s).` : '.'),

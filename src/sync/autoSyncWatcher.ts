@@ -4,6 +4,7 @@ import { ConnectionConfig } from '../connections/connectionConfig';
 import { SyncManifestStore } from './syncManifest';
 import { uploadChanges } from './uploadChanges';
 import { SyncingTracker } from './syncingTracker';
+import { TRANSFER_TIMEOUT_MS } from '../connections/connectionManager';
 
 interface WatcherHandle {
   fsWatcher: vscode.FileSystemWatcher;
@@ -18,7 +19,7 @@ export class AutoSyncManager {
     private readonly getSftp: (conn: ConnectionConfig) => Promise<SFTPWrapper>,
     private readonly log: (message: string) => void,
     private readonly syncingTracker: SyncingTracker,
-    private readonly runExclusive: <T>(connectionId: string, operation: () => Promise<T>) => Promise<T>,
+    private readonly runExclusive: <T>(connectionId: string, operation: () => Promise<T>, timeoutMs?: number) => Promise<T>,
   ) {}
 
   isActive(connectionId: string): boolean {
@@ -70,15 +71,19 @@ export class AutoSyncManager {
   }
 
   private async runUpload(conn: ConnectionConfig): Promise<void> {
-    await this.runExclusive(conn.id, async () => {
-      const sftp = await this.getSftp(conn);
-      const result = await uploadChanges(sftp, conn, this.manifestStore, this.syncingTracker);
-      if (result.uploaded > 0 || result.downloadedInstead.length > 0 || result.skippedConflicts.length > 0) {
-        this.log(
-          `Auto-sync: "${conn.id}" — ${result.uploaded} uploaded, ` +
-            `${result.downloadedInstead.length} pulled from server instead, ${result.skippedConflicts.length} skipped.`,
-        );
-      }
-    });
+    await this.runExclusive(
+      conn.id,
+      async () => {
+        const sftp = await this.getSftp(conn);
+        const result = await uploadChanges(sftp, conn, this.manifestStore, this.syncingTracker);
+        if (result.uploaded > 0 || result.downloadedInstead.length > 0 || result.skippedConflicts.length > 0) {
+          this.log(
+            `Auto-sync: "${conn.id}" — ${result.uploaded} uploaded, ` +
+              `${result.downloadedInstead.length} pulled from server instead, ${result.skippedConflicts.length} skipped.`,
+          );
+        }
+      },
+      TRANSFER_TIMEOUT_MS,
+    );
   }
 }
